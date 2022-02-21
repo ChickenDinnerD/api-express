@@ -1,4 +1,5 @@
-var mysql = require('mysql');
+/* eslint-disable @typescript-eslint/no-var-requires */
+var mysql = require('mysql2');
 var migration = require('mysql-migrations');
 require('dotenv').config()
 
