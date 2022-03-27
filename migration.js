@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-var mysql = require('mysql2');
-var migration = require('mysql-migrations');
-require('dotenv').config()
+let mysql = require('mysql2');
+let migration = require('mysql-migrations');
+require('dotenv').config();
 
-var connection = mysql.createPool({
+const connection = mysql.createPool({
   connectionLimit : 10,
   host     : process.env.HOST,
   user     : process.env.DB_USER,
@@ -12,5 +12,6 @@ var connection = mysql.createPool({
 });
 
 migration.init(connection, __dirname + '/migrations', function(err) {
+  if (err) throw err;
   console.log("finished running migrations");
 });

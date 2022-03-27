@@ -1,4 +1,4 @@
-export interface IRead<T> {
-    findAll(): Promise<object[]>;
-    findOne(id: string): Promise<object[]>;
+export interface IRead<User> {
+    findAll(): Promise<User[]>;
+    findOne(id: string): Promise<any>;
 }
