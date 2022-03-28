@@ -1,7 +1,7 @@
 import {IWrite} from 'src/repositories/interfaces/IWriteInterface';
 import {IRead} from 'src/repositories/interfaces/IReadInterface';
 import { Sequelize, DataTypes, QueryTypes } from 'sequelize';
-import { connection } from '../app';
+import {connection} from '../connection';
 
 const sequelize = new Sequelize('sqlite::memory:');
 
@@ -40,22 +40,19 @@ export abstract class UserRepository<User> implements IWrite<User>, IRead<User> 
 
     public async createUser(name: string): Promise<number> {
 
-        const result = await connection.query(`INSERT INTO users (userName) VALUES ('${name}')`, {type: QueryTypes.INSERT});
-        const user = result[0];
+        const [user] = await connection.query(`INSERT INTO users (userName) VALUES ('${name}')`, {type: QueryTypes.INSERT});
 
-        return user;
+        return user[0];
     }
 
-    public async findName(uName: string): Promise<number> {
+    public async findName(userName: string): Promise<number> {
 
-        const result = await connection.query(`SELECT * FROM users WHERE userName = '${uName}'`, {type: QueryTypes.SELECT});
-        const user = result[0];
-
-        if (user === undefined) {
-          return 0;
-        }
+        const [user] = await connection.query(`SELECT * FROM users WHERE userName = '${userName}'`, {type: QueryTypes.SELECT});
         const id = user['id'];
 
+        if (!id) {
+          return 0;
+        }
         return id;
     }
 }

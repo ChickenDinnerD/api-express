@@ -30,11 +30,11 @@ export class userService {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { userName: uName } = req.body;
-        const result = await repo.findName(uName);
+        const {userName} = req.body;
+        const result = await repo.findName(userName);
 
-        if(result === 0){
-            const id = await repo.createUser(uName);
+        if(!result){
+            const id = await repo.createUser(userName);
             return res.status(201).json({message: 'New user created with id:', id});
         }
         return res.status(400).json({message: "This username already in use!"});
