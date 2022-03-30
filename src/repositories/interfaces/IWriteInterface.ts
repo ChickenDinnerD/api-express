@@ -1,3 +1,3 @@
-export interface IWrite<T> {
-    createUser(name: string): Promise<[number, number]>;
+export interface IWrite<User> {
+    createUser(name: string): Promise<number>;
 }
