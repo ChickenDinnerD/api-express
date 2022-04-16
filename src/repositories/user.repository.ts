@@ -31,7 +31,7 @@ export abstract class UserRepository<User> implements IWrite<User>, IRead<User> 
         return user;
     }
 
-    public async findOne(id: string): Promise<object> {
+    public async findOne(id: number): Promise<object> {
 
         const result = await connection.query(`SELECT * FROM users WHERE id = ${id}`, {type: QueryTypes.SELECT});
 
@@ -42,17 +42,18 @@ export abstract class UserRepository<User> implements IWrite<User>, IRead<User> 
 
         const [user] = await connection.query(`INSERT INTO users (userName) VALUES ('${name}')`, {type: QueryTypes.INSERT});
 
-        return user[0];
+        return user;
     }
 
     public async findName(userName: string): Promise<number> {
 
         const [user] = await connection.query(`SELECT * FROM users WHERE userName = '${userName}'`, {type: QueryTypes.SELECT});
-        const id = user['id'];
 
-        if (!id) {
+        if(!user) {
           return 0;
         }
+        const id = user['id'];
+
         return id;
     }
 }
